@@ -30,7 +30,12 @@ class resturant:
             def __init__(self):
                 # Question = input("what you want to update \n1.item name\n2.item price\n3.item code")
                 pass
-
+            @staticmethod
+            def new_value_getter(modifyingvaluename:str) -> int|str: #we can use this method to get code and newvalue of item 
+                itemcode = int(input("ENTER THE CODE OF ITEM (CURENT)"))
+                newvalue = input(f"ENTER NEW VALUE OF {modifyingvaluename}")
+                return itemcode, newvalue
+            
             def item_price(self,itemcode,newvalue):
                 resturant.cur.execute(f"update menu set item_price = {newvalue} where item_code = {itemcode}")
 
@@ -72,13 +77,17 @@ class resturant:
                 pass
 
     class bill:
-        order = {}
-
+        def __init__(self):
+            self.order = {}
         def generate():
             pass
 
         def __str__(self): #to print direct bill
-            return (tabulate.tabulate(self.order.items(),["ITEM NAME","ITEM PRICE"],tablefmt= "grid",missingval= ""))
+            #merging two list original order with {total:totalprice}
+            modified_order = self.order | {  '\033[93m\033[1mTOTAL\033[0m'  :  "\033[93m"   +   str(sum(self.order.values())) + "\033[0m"}
+            #bold = ( \033[93m ), bold = ( \033[1m ), ending = ( \033[0m )
+            # "code" +"str" + "code"
+            return (tabulate.tabulate(modified_order.items(),["ITEM NAME","ITEM PRICE"],tablefmt= "grid",missingval= ""))
         
 
         @staticmethod
@@ -90,21 +99,19 @@ class resturant:
             return itemprice,itemname
 
 
-        @classmethod
-        def adding_items(cls,item_code, quantity:int):
+        def adding_items(self,item_code, quantity:int):
             price,name = resturant.bill.gettingitemdetail(item_code)
             total_price = price * quantity 
-            cls.order[name] = total_price
+            self.order[name] = total_price
 
-        @classmethod
-        def removing_items(cls,item_code,quantity:int) -> None:
+        def removing_items(self,item_code,quantity:int) -> None:
             try:
                 price , name = resturant.bill.gettingitemdetail(item_code)
                 removing_price = price * quantity
                 if (calculated_price := resturant.bill.order[name]- removing_price) >0:
-                    cls.order[name] = calculated_price
+                    self.order[name] = calculated_price
                 else:
-                    del cls.order[name]
+                    del self.order[name]
             except KeyError:
                 print("ITEM NOT IN BILL :)")
 
@@ -122,5 +129,11 @@ class resturant:
 # print(bill1())
 # # a.bill.adding_items(101,2)
 # # a.menu.menu_update.item_insert(101,"samosa",20)
-# resturant.con.commit()
 # # print(a.bill())
+# bill1 = resturant.bill()
+# bill1.adding_items(101,2)
+# resturant.menu.menu_update.item_insert(102,"idli",40)
+# resturant.con.commit()
+# bill1.adding_items(102,4)
+
+# print(bill1)
