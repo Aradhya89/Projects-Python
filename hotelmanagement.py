@@ -1,15 +1,18 @@
 import mysql.connector as ms
 import tabulate
-import pyttsx3
+import time
+# import pyttsx3
 
-
+t = time.localtime()
+modifiedtime = time.strftime("%Y%m%d%H%M%S",t)
+print(modifiedtime)
 # class sfx:
 #     engine = pyttsx3.init()
 #     def welcome_voice(self):
 #         self.engine.say("Welcome to the Restaurants")
 #         self.engine.runAndWait()
             # resturant.cur.execute("create table if not exists sale(order_no int primary key ,date char(15) not null ,time char(15) not null, foreign key (item_code) references menu (item_code));")
-# cur.execute("select * from info")
+
 
 # creating parent class resturant
 class resturant:
@@ -22,7 +25,6 @@ class resturant:
 
 
     class menu ():
-        
         def __init__(self):
             resturant.cur.execute("create table if not exists menu(item_code int primary key ,item_name char(25) not null ,item_price int not null);" ) #making table if not exits
             
@@ -60,25 +62,11 @@ class resturant:
                 data = resturant.cur.fetchall()
                 return tabulate.tabulate(data,["ITEM CODE","ITEM NAME","ITEM PRICE"],tablefmt= "grid")
 
-    class sales:
-        def __init__(self):
-            resturant.cur.execute("create table if not exists sale(order_no int primary key ,date char(15) not null ,time char(15) not null, total_sale int not null);")
-        def print_sale():
-            pass
-        def print_analysis():
-            pass
-
-        def saving_data():
-            pass
-        class modifying_sales_data():
-            def inserting_data():
-                pass
-            def deleting_data():
-                pass
 
     class bill:
         def __init__(self):
             self.order = {}
+        
         def generate():
             pass
 
@@ -115,25 +103,43 @@ class resturant:
             except KeyError:
                 print("ITEM NOT IN BILL :)")
 
+    class sales():
 
-    # a = sfx()
-    # a.welcome_voice(
-# print(resturant.menu())
-# shriji = resturant()
-# bill1 = shriji.bill
-# bill1.adding_items(101,2)
-# print(bill1(),"\n")
-# bill1.removing_items(101,1)
-# print(bill1(),"\n")
-# bill1.removing_items(101,1)
-# print(bill1())
-# # a.bill.adding_items(101,2)
-# # a.menu.menu_update.item_insert(101,"samosa",20)
-# # print(a.bill())
-# bill1 = resturant.bill()
-# bill1.adding_items(101,2)
-# resturant.menu.menu_update.item_insert(102,"idli",40)
-# resturant.con.commit()
-# bill1.adding_items(102,4)
+        def __init__(self):
+            resturant.cur.execute("create table if not exists sale(order_no char(10) primary key ,date date not null ,time time not null, total_sale int not null);")
 
-# print(bill1)
+        @staticmethod
+        def __str__():
+            resturant.cur.execute("select * from sale")
+            data = resturant.cur.fetchall()
+            return tabulate.tabulate(data,["ORDER NO", "DATE", "TIME","TOTAL BILLING" ],tablefmt= "grid")
+       
+        def print_analysis():
+            pass #not working on it now
+
+        @staticmethod
+        def saving_data(order):
+
+            #generation of new order no 
+            resturant.cur.execute(f"select order_no from sale")
+            data = resturant.cur.fetchall() # GIVE OUTPUT AS [(1,), (2,)] 
+            try:
+                previous_orderno = max([int(a[0].split("-")[1]) for a in data])  # taking first element of every tuple of data and then removing month part of previous_orderno(eg. ("10-101".split("-") give ["10","101"]))``
+            except ValueError:
+                previous_orderno = 0
+            t = time.localtime()
+            new_orderno = f"{time.strftime("%m",t)}-{previous_orderno +1}"
+            date = time.strftime("%Y-%m-%d")
+            timing = time.strftime("%H:%M:%S")
+            try:
+                resturant.cur.execute(f'insert into sale values("{new_orderno}","{date}","{timing}",{sum(order.values())})')
+            except TypeError():
+                resturant.cur.execute(f'insert into sale values("{new_orderno}","{date}","{timing}",0)')
+    
+        class modifying_sales_data():
+
+            def inserting_data():
+                pass
+            def deleting_data():
+                pass
+
