@@ -1,0 +1,23 @@
+linklist = {"youtube":"https://www.youtube.com",
+            "instagram":"https://www.instagram.com",
+            "chat gpt":"https://chatgpt.com",
+            "github":"https://github.com",
+            "google":"https://google.com",
+            "linkedin":"https://www.linkedin.com",
+            "gmail":"https://mail.google.com",
+            "stack overflow":"https://stackoverflow.com",
+            "reddit":"https://www.reddit.com/",
+            "twitter":"https://x.com",
+            "facebook":"https://www.facebook.com/",
+            "netflix":"https://www.facebook.com/",
+            "amazon":"https://www.amazon.in/",
+            "wikipedia":"https://en.wikipedia.org/",
+            "news":"https://news.google.com/",
+            "weather":"https://www.accuweather.com/",
+            "calendar":"https://calendar.google.com/",
+            "translate":"https://translate.google.com/"}
+
+musiclist = {"maryada":"https://youtu.be/98O4J7fxPe8?si=uIsUCFsUU87XZt_",
+             "jhol":"https://youtu.be/0fB0gr_M7Pw?si=222FCMOtvByXimuc",
+             "mahabharat":"https://youtu.be/6ZqxXeFvS2E?si=gIPvqeDBUZT5vJqT",
+             "soorveer":"https://youtu.be/J5speCpahsQ?si=zbGIlL_KnMdFD89M"}
