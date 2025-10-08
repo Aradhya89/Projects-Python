@@ -7,17 +7,18 @@ from listoflist import *
 from google import genai
 import os
 import dotenv
-
-
+import pyautogui as pi
 # import openai
 
-#for openai 
-# openaiapi = os.environ.get("openai_api")
-# client = openai.OpenAI(api_key= openaiapi)
+
 
 # for google api
 dotenv.load_dotenv() # to add api key in env to os.env
 
+
+#for openai 
+# openaiapi = os.environ.get("openai_api")
+# client = openai.OpenAI(api_key= openaiapi)
 
 
 #initializing module
@@ -29,6 +30,7 @@ pygame.mixer.init()
 def voicechange(x):
     voices = tt.getProperty("voices")
     tt.setProperty('voice',voices[x].id)   
+
 
 def genaibrain(a:str) -> str:
     with genai.Client(api_key=os.environ.get("GEMINI_API_KEY")) as client:
@@ -42,6 +44,45 @@ def genaibrain(a:str) -> str:
         )
         return (response.text)
     
+    # ai response with openai api
+
+    # try:
+    #     response = client.chat.completions.create(model= "gpt-3.5-turbo",
+    #     messages= [{'role':"system","content":"your are a ai system of automated project like jarvis"},{"role":"user","content":"what is the weather"}])
+    #     return response
+
+    # except:
+    #     print("LIMIT EXCEED")
+
+    
+def ytscroller():
+    speak("activating youtube scroller")
+    while True:
+        with sr.Microphone() as mic:
+
+            try:
+                print("say command")  #-> FOR DEBBUGING 
+                command = recogniser.listen(mic,timeout= 2,phrase_time_limit=2)
+                # print("recognizing...") ->  FOR DEBBUGING 
+            except sr.exceptions.WaitTimeoutError:
+                # print("cant able to understand") ->  FOR DEBBUGING 
+                continue
+        try:
+            print("you say :",a := recogniser.recognize_google(command).lower())# -> FOR DEBBUGING 
+            if a == "scroll up":
+                # pi.click(1550,458)
+                pi.press("up")
+            elif a == "scroll down":
+                # pi.click(1550, 529) 
+                pi.press("down")
+            elif a == "video stop" or a == "video resume":
+                # pi.press("space")
+                pi.click(825,484)
+            elif a == "exit":
+                break
+        except (sr.RequestError,sr.UnknownValueError):
+            continue
+        
 
 def speak(a):
     tt.say(a)
@@ -99,22 +140,14 @@ if __name__ == "__main__": #writig this so it will not work after importing on o
                     #command for exiting while loop
                     elif a.lower() == "system shutdown" :
                         sys.exit()
-
+                    
+                    elif a.lower() == "youtube scroller":
+                        ytscroller()
 
                     else :
                         print(data :=genaibrain(a))
-                        # try:
-                        #     client.chat.completions.create(model= "gpt-3.5-turbo",
-                        #         messages= [{'role':"system","content":"your are a ai system of automated project like jarvis"},
-                        #         {"role":"user","content":"what is the weather"}])
-                        # except:
-                        #     print("LIMIT EXCEED")
-                        
-                    
 
-                    
-                    
-                    
+                        
                 except (sr.UnknownValueError , sr.RequestError):
                     print("not able to understand")  
 

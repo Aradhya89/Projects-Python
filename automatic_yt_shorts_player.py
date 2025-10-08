@@ -22,13 +22,16 @@ while True:
     try:
         print("you say :",a := recogniser.recognize_google(command).lower())# -> FOR DEBBUGING 
         if a == "scroll up":
-            pi.click(1550,458)
+            # pi.click(1550,458)
+            pi.press("up")
         elif a == "scroll down":
-            pi.click(1550, 529) 
+            # pi.click(1550, 529) 
+            pi.press("down")
         elif a == "video stop" or a == "video resume":
+            # pi.press("space")
             pi.click(825,484)
         elif a == "exit":
-            exit()
+            break
     except (sr.RequestError,sr.UnknownValueError):
         continue
 

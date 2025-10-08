@@ -1,4 +1,5 @@
-linklist = {"youtube":"https://www.youtube.com",
+linklist = {"youtube shorts":"https://www.youtube.com/shorts/",
+            "youtube":"https://www.youtube.com",
             "instagram":"https://www.instagram.com",
             "chat gpt":"https://chatgpt.com",
             "github":"https://github.com",
@@ -15,7 +16,8 @@ linklist = {"youtube":"https://www.youtube.com",
             "news":"https://news.google.com/",
             "weather":"https://www.accuweather.com/",
             "calendar":"https://calendar.google.com/",
-            "translate":"https://translate.google.com/"}
+            "translate":"https://translate.google.com/"
+            }
 
 musiclist = {"maryada":"https://youtu.be/98O4J7fxPe8?si=uIsUCFsUU87XZt_",
              "jhol":"https://youtu.be/0fB0gr_M7Pw?si=222FCMOtvByXimuc",
