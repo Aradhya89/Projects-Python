@@ -31,6 +31,10 @@ def voicechange(x):
     voices = tt.getProperty("voices")
     tt.setProperty('voice',voices[x].id)   
 
+def youtube_search(x:str):
+    x = x.replace(" ","+")
+    web.open(f"https://www.youtube.com/results?search_query={x}")
+
 
 def genaibrain(a:str) -> str:
     with genai.Client(api_key=os.environ.get("GEMINI_API_KEY")) as client:
@@ -143,6 +147,10 @@ if __name__ == "__main__": #writig this so it will not work after importing on o
                     
                     elif a.lower() == "youtube scroller":
                         ytscroller()
+
+                    elif "youtube search" in a.lower():
+                        search = a.lower().replace("youtube search","")
+                        youtube_search(search)
 
                     else :
                         print(data :=genaibrain(a))
